@@ -4,7 +4,7 @@
 
 ### Usage Sync
 
-    from bot_reporter import Bot
+    from telegram_bot_reporter import Bot
 
     bot = Bot(bot_token=TELEBOT_TOKEN, chat_id=CHAT_ID)
 
@@ -22,7 +22,7 @@
 
 ### Usage Async
 
-    from bot_reporter import AsyncBot
+    from telegram_bot_reporter import AsyncBot
 
     bot = AsyncBot(bot_token=TELEBOT_TOKEN, chat_id=CHAT_ID)
 

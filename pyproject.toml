@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "telegram-bot-reporter"
-version = "0.1.1"
+version = "0.1.2"
 description = "Library for sending messages and files using a Telegram bot."
 authors = ["deskent <battenetciz@gmail.com>"]
 license = "MIT"
