@@ -2,11 +2,11 @@ from pathlib import Path
 
 import niquests
 
-from bot_reporter.core.base_bot import BaseBot
+from deskent_bot_reporter.core.base_bot import BaseBot
 
 
-class AsyncBot(BaseBot):
-    async def send_message(
+class Bot(BaseBot):
+    def send_message(
         self,
         message: str,
         split_message: bool = False,
@@ -20,10 +20,10 @@ class AsyncBot(BaseBot):
         """
 
         if split_message:
-            return await self._send_chunks(message)
-        return await self._send_message(message)
+            return self._send_chunks(message)
+        return self._send_message(message)
 
-    async def send_document(
+    def send_document(
         self,
         file_path: Path | str,
         caption: str = '',
@@ -41,23 +41,23 @@ class AsyncBot(BaseBot):
                 'caption': caption,
                 'parse_mode': self._parse_mode,
             }
-            return await self._send_api_request(
+            return self._send_api_request(
                 'sendDocument',
                 headers={},
                 data=data,
                 files={'document': f},
             )
 
-    async def _send_chunks(self, message: str) -> niquests.Response:
+    def _send_chunks(self, message: str) -> niquests.Response:
         for chunk in range(0, len(message), self._CHUNK):
-            await self._send_message(message[chunk : chunk + self._CHUNK])
+            self._send_message(message[chunk : chunk + self._CHUNK])
         else:
             response = niquests.Response()
             response.status_code = 200
 
             return response
 
-    async def _send_message(self, message: str) -> niquests.Response:
+    def _send_message(self, message: str) -> niquests.Response:
         if len(message) > self._CHUNK:
             raise ValueError(
                 f'Message too long. Max length is {self._CHUNK} symbols.'
@@ -68,13 +68,13 @@ class AsyncBot(BaseBot):
             'text': f'{self._prefix}: {message}',
             'parse_mode': self._parse_mode,
         }
-        return await self._send_api_request(
+        return self._send_api_request(
             'sendMessage',
             json=data,
             headers=self._headers,
         )
 
-    async def _send_api_request(
+    def _send_api_request(
         self,
         api_method: str,
         headers: dict,
@@ -83,12 +83,11 @@ class AsyncBot(BaseBot):
     ) -> niquests.Response:
         url: str = f'https://{self._API_HOST}/bot{self._token}/{api_method}'
 
-        async with niquests.AsyncSession() as session:
-            response: niquests.Response = await session.post(
-                url,
-                headers=headers,
-                timeout=self._timeout,
-                **kwargs,
-            )
+        response: niquests.Response = niquests.post(
+            url,
+            headers=headers,
+            timeout=self._timeout,
+            **kwargs,
+        )
 
-            return response
+        return response

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import niquests
 
-from bot_reporter import AsyncBot
+from deskent_bot_reporter import AsyncBot
 
 
 async def test_bot_send_async_message(async_bot: AsyncBot):

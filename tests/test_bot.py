@@ -2,7 +2,7 @@ from pathlib import Path
 
 import niquests
 
-from bot_reporter import Bot
+from deskent_bot_reporter import Bot
 
 
 def test_bot_send_message(bot: Bot):
