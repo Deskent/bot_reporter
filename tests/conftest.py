@@ -3,7 +3,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from deskent_bot_reporter import Bot, AsyncBot
+from telegram_bot_reporter import Bot, AsyncBot
 
 load_dotenv()
 

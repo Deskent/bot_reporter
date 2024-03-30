@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "deskent_bot_reporter"
+name = "telegram-bot-reporter"
 version = "0.1.0"
 description = "Library for sending messages and files using a Telegram bot."
 authors = ["deskent <battenetciz@gmail.com>"]

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import niquests
 
-from deskent_bot_reporter.core.base_bot import BaseBot
+from telegram_bot_reporter.core.base_bot import BaseBot
 
 
 class Bot(BaseBot):
