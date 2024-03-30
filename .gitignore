@@ -1,0 +1,6 @@
+.env
+.editorconfig
+.pytest_cache
+.idea
+/venv
+*.env
