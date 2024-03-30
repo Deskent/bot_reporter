@@ -6,17 +6,18 @@ from dotenv import load_dotenv
 from telegram_bot_reporter.core.async_bot import AsyncBot
 from telegram_bot_reporter.core.sync_bot import Bot
 
+
 load_dotenv()
 
 
 @pytest.fixture
 def bot_token() -> str:
-    return os.environ.get('TELEBOT_TOKEN')
+    return os.environ.get("TELEBOT_TOKEN")
 
 
 @pytest.fixture
 def chat_id() -> str:
-    return os.environ.get('CHAT_ID')
+    return os.environ.get("CHAT_ID")
 
 
 @pytest.fixture

@@ -15,7 +15,8 @@ class Bot(BaseBot):
         Send message to the Telegram chat.
 
         :param message: Text to send.
-        :param split_message: If true, message will be sent by chunks. Defaults to False.
+        :param split_message: If true, message will be sent by chunks.
+            Defaults to False.
         :return: niquests.Response
         """
 
@@ -26,7 +27,7 @@ class Bot(BaseBot):
     def send_document(
         self,
         file_path: Path | str,
-        caption: str = '',
+        caption: str = "",
     ) -> niquests.Response:
         """Send file as Telegram document.
 
@@ -37,15 +38,15 @@ class Bot(BaseBot):
 
         with open(file_path, "rb") as f:
             data: dict = {
-                'chat_id': self._chat_id,
-                'caption': caption,
-                'parse_mode': self._parse_mode,
+                "chat_id": self._chat_id,
+                "caption": caption,
+                "parse_mode": self._parse_mode,
             }
             return self._send_api_request(
-                'sendDocument',
+                "sendDocument",
                 headers={},
                 data=data,
-                files={'document': f},
+                files={"document": f},
             )
 
     def _send_chunks(self, message: str) -> niquests.Response:
@@ -60,16 +61,16 @@ class Bot(BaseBot):
     def _send_message(self, message: str) -> niquests.Response:
         if len(message) > self._CHUNK:
             raise ValueError(
-                f'Message too long. Max length is {self._CHUNK} symbols.'
+                f"Message too long. Max length is {self._CHUNK} symbols."
             )
 
         data: dict = {
-            'chat_id': self._chat_id,
-            'text': f'{self._prefix}: {message}',
-            'parse_mode': self._parse_mode,
+            "chat_id": self._chat_id,
+            "text": f"{self._prefix}: {message}",
+            "parse_mode": self._parse_mode,
         }
         return self._send_api_request(
-            'sendMessage',
+            "sendMessage",
             json=data,
             headers=self._headers,
         )
@@ -83,7 +84,7 @@ class Bot(BaseBot):
     ) -> niquests.Response:
 
         response: niquests.Response = niquests.post(
-            url=f'{self._url}/{api_method}',
+            url=f"{self._url}/{api_method}",
             headers=headers,
             timeout=self._timeout,
             **kwargs,
