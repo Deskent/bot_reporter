@@ -1,6 +1,6 @@
 ### Installation
 
-    pip install deskent-bot-reporter
+    pip install telegram-bot-reporter
 
 ### Usage Sync
 
