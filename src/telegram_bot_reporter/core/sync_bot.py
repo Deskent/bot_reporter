@@ -81,10 +81,9 @@ class Bot(BaseBot):
         *_,
         **kwargs,
     ) -> niquests.Response:
-        url: str = f'https://{self._API_HOST}/bot{self._token}/{api_method}'
 
         response: niquests.Response = niquests.post(
-            url,
+            url=f'{self._url}/{api_method}',
             headers=headers,
             timeout=self._timeout,
             **kwargs,
