@@ -22,11 +22,7 @@ class BaseBot:
         prefix: str = "",
     ):
         self._token = bot_token
-        if not self._token:
-            raise ValueError("Token cannot be empty")
         self._chat_id: str = str(chat_id)
-        if not self._chat_id:
-            raise ValueError("Chat id cannot be empty")
         self._timeout = timeout
         self._parse_mode = parse_mode
         self._prefix = prefix
