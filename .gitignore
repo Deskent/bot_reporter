@@ -5,7 +5,7 @@
 *.env
 build.sh
 
-
+poetry.lock
 # Ruff
 .ruff_cache
 

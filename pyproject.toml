@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "telegram-bot-reporter"
-version = "0.1.7"
+version = "0.1.8"
 description = "Library for sending messages and files using a Telegram bot."
 authors = ["deskent <battenetciz@gmail.com>"]
 license = "MIT"
@@ -9,7 +9,7 @@ repository = "https://github.com/Deskent/bot_reporter"
 homepage = "https://pypi.org/project/telegram-bot-reporter/"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 niquests = "^3.5.5"
 
 
@@ -30,7 +30,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 79
-target-version = ['py311']
+target-version = ['py310']
 include = '\.pyi?$'
 extend-exclude = '''
 /(
@@ -92,8 +92,8 @@ exclude = [
 ]
 line-length = 79
 
-# Assume Python 3.11
-target-version = "py311"
+# Assume Python 3.10
+target-version = "py310"
 
 
 [tool.ruff.format]
