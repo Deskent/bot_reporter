@@ -11,8 +11,8 @@ class BaseBot:
         Defaults is 10.
     :argument parse_mode: Message parse mode. Defaults is 'HTML'.
     :argument prefix: Message prefix. Defaults is empty string.
-    :argument transport: HTTP library transport name.
-        Supported values: ['niquests', 'httpx']
+    :argument transport: HTTP library transport name. Defaults is 'httpx'.
+        Supported values: ['httpx']
 
     """
 
@@ -25,7 +25,7 @@ class BaseBot:
         timeout: int = 10,
         parse_mode: str = "HTML",
         prefix: str = "",
-        transport: Literal['niquests', 'httpx'] = 'httpx',
+        transport: Literal['httpx'] = 'httpx',
     ):
         self._token = bot_token
         self._chat_id: str = str(chat_id)

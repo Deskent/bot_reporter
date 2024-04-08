@@ -86,7 +86,6 @@ class AsyncBot(BaseBot):
         **kwargs,
     ):
         transports: dict = {
-            'niquests': self._send_using_niquests,
             'httpx': self._send_using_httpx,
         }
         func: Callable = transports.get(self._transport)
@@ -97,23 +96,6 @@ class AsyncBot(BaseBot):
             headers=headers,
             **kwargs,
         )
-
-    async def _send_using_niquests(
-        self,
-        api_method: str,
-        headers: dict,
-        *_,
-        **kwargs,
-    ) -> niquests.Response:
-        async with niquests.AsyncSession() as session:
-            response: niquests.Response = await session.post(
-                url=f"{self._url}/{api_method}",
-                headers=headers,
-                timeout=self._timeout,
-                **kwargs,
-            )
-
-            return response
 
     async def _send_using_httpx(
         self,
