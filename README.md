@@ -2,8 +2,8 @@
 
 - [x] <a href="https://www.python.org/"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-plain.svg" alt="python" width="15" height="15"/>
   Python 3.10+ <br/></a>
-- [x] <a href="https://github.com/jawah/niquests"><img src="https://user-images.githubusercontent.com/9326700/282852138-160f32e9-e6cf-495f-b39d-99891602acf9.png" alt="niquests" width="15" height="15"/>
-  Niquests 3.5.5+ <br/>
+- [x] <a href="https://github.com/projectdiscovery/httpx"><img src="https://user-images.githubusercontent.com/8293321/135731750-4c1d38b1-bd2a-40f9-88e9-3c4b9f6da378.png" alt="httpx" width="15" height="15"/>
+  Httpx 0.27.0+ <br/>
 
 ### Installation
 

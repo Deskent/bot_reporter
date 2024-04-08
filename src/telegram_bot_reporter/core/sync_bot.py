@@ -2,7 +2,6 @@ from pathlib import Path
 from typing import Callable
 
 import httpx
-import niquests
 
 from telegram_bot_reporter.core.base_bot import BaseBot
 
@@ -55,8 +54,7 @@ class Bot(BaseBot):
         for chunk in range(0, len(message), self._CHUNK):
             self._send_message(message[chunk : chunk + self._CHUNK])
         else:
-            response = niquests.Response()
-            response.status_code = 200
+            response = httpx.Response(status_code=200)
 
             return response
 

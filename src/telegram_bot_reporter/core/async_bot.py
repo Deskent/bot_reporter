@@ -2,7 +2,6 @@ from pathlib import Path
 from typing import Callable
 
 import httpx
-import niquests
 
 from telegram_bot_reporter.core.base_bot import BaseBot
 
@@ -12,7 +11,7 @@ class AsyncBot(BaseBot):
         self,
         message: str,
         split_message: bool = False,
-    ) -> niquests.Response:
+    ) -> httpx.Response:
         """
         Send message to the Telegram chat.
 
@@ -31,7 +30,7 @@ class AsyncBot(BaseBot):
         self,
         file_path: Path | str,
         caption: str = "",
-    ) -> niquests.Response:
+    ) -> httpx.Response:
         """Send file as Telegram document.
 
         :param file_path: Path to the file.
@@ -52,16 +51,15 @@ class AsyncBot(BaseBot):
                 files={"document": f},
             )
 
-    async def _send_chunks(self, message: str) -> niquests.Response:
+    async def _send_chunks(self, message: str) -> httpx.Response:
         for chunk in range(0, len(message), self._CHUNK):
             await self._send_message(message[chunk : chunk + self._CHUNK])
         else:
-            response = niquests.Response()
-            response.status_code = 200
+            response = httpx.Response(status_code=200)
 
             return response
 
-    async def _send_message(self, message: str) -> niquests.Response:
+    async def _send_message(self, message: str) -> httpx.Response:
         if len(message) > self._CHUNK:
             raise ValueError(
                 f"Message too long. Max length is {self._CHUNK} symbols."
