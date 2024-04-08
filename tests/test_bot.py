@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import httpx
 import niquests
 
 from telegram_bot_reporter import Bot
@@ -7,6 +8,11 @@ from telegram_bot_reporter import Bot
 
 def test_bot_send_message(bot: Bot):
     response: niquests.Response = bot.send_message("Test message")
+    assert response.status_code == 200, response.text
+
+
+def test_bot_send_message_httpx(bot_httpx: Bot):
+    response: httpx.Response = bot_httpx.send_message("Test message")
     assert response.status_code == 200, response.text
 
 

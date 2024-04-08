@@ -26,5 +26,15 @@ def bot(bot_token: str, chat_id: str) -> Bot:
 
 
 @pytest.fixture
+def bot_httpx(bot_token: str, chat_id: str) -> Bot:
+    yield Bot(bot_token=bot_token, chat_id=chat_id, transport='httpx')
+
+
+@pytest.fixture
 def async_bot(bot_token: str, chat_id: str) -> Bot:
     yield AsyncBot(bot_token=bot_token, chat_id=chat_id)
+
+
+@pytest.fixture
+def async_bot_httpx(bot_token: str, chat_id: str) -> Bot:
+    yield AsyncBot(bot_token=bot_token, chat_id=chat_id, transport='httpx')

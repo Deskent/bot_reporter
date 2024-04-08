@@ -1,5 +1,7 @@
 from pathlib import Path
+from typing import Callable
 
+import httpx
 import niquests
 
 from telegram_bot_reporter.core.base_bot import BaseBot
@@ -10,14 +12,14 @@ class Bot(BaseBot):
         self,
         message: str,
         split_message: bool = False,
-    ) -> niquests.Response:
+    ):
         """
         Send message to the Telegram chat.
 
         :param message: Text to send.
         :param split_message: If true, message will be sent by chunks.
             Defaults to False.
-        :return: niquests.Response
+        :return: Response
         """
 
         if split_message:
@@ -28,12 +30,12 @@ class Bot(BaseBot):
         self,
         file_path: Path | str,
         caption: str = "",
-    ) -> niquests.Response:
+    ):
         """Send file as Telegram document.
 
         :param file_path: Path to the file.
         :param caption: Caption of the file. Defaults to empty string.
-        :return: niquests.Response
+        :return: Response
         """
 
         with open(file_path, "rb") as f:
@@ -49,7 +51,7 @@ class Bot(BaseBot):
                 files={"document": f},
             )
 
-    def _send_chunks(self, message: str) -> niquests.Response:
+    def _send_chunks(self, message: str):
         for chunk in range(0, len(message), self._CHUNK):
             self._send_message(message[chunk : chunk + self._CHUNK])
         else:
@@ -58,7 +60,7 @@ class Bot(BaseBot):
 
             return response
 
-    def _send_message(self, message: str) -> niquests.Response:
+    def _send_message(self, message: str):
         if len(message) > self._CHUNK:
             raise ValueError(
                 f"Message too long. Max length is {self._CHUNK} symbols."
@@ -81,8 +83,27 @@ class Bot(BaseBot):
         headers: dict,
         *_,
         **kwargs,
-    ) -> niquests.Response:
+    ):
+        transports: dict = {
+            'niquests': self._send_using_niquests,
+            'httpx': self._send_using_httpx,
+        }
+        func: Callable = transports.get(self._transport)
+        if not func:
+            raise ValueError(f'Invalid transport type: {self._transport}')
+        return func(
+            api_method=api_method,
+            headers=headers,
+            **kwargs,
+        )
 
+    def _send_using_niquests(
+        self,
+        api_method: str,
+        headers: dict,
+        *_,
+        **kwargs,
+    ) -> niquests.Response:
         response: niquests.Response = niquests.post(
             url=f"{self._url}/{api_method}",
             headers=headers,
@@ -91,3 +112,20 @@ class Bot(BaseBot):
         )
 
         return response
+
+    def _send_using_httpx(
+        self,
+        api_method: str,
+        headers: dict,
+        *_,
+        **kwargs,
+    ) -> httpx.Response:
+        with httpx.Client() as session:
+            response: httpx.Response = session.post(
+                url=f"{self._url}/{api_method}",
+                headers=headers,
+                timeout=self._timeout,
+                **kwargs,
+            )
+
+            return response

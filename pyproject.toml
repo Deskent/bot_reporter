@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "telegram-bot-reporter"
-version = "0.1.8"
+version = "0.1.9"
 description = "Library for sending messages and files using a Telegram bot."
 authors = ["deskent <battenetciz@gmail.com>"]
 license = "MIT"
@@ -11,6 +11,7 @@ homepage = "https://pypi.org/project/telegram-bot-reporter/"
 [tool.poetry.dependencies]
 python = "^3.10"
 niquests = "^3.5.5"
+httpx = "^0.27.0"
 
 
 [tool.poetry.group.dev.dependencies]

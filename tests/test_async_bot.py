@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import httpx
 import niquests
 
 from telegram_bot_reporter import AsyncBot
@@ -7,6 +8,13 @@ from telegram_bot_reporter import AsyncBot
 
 async def test_bot_send_async_message(async_bot: AsyncBot):
     response: niquests.Response = await async_bot.send_message("Test message")
+    assert response.status_code == 200, response.text
+
+
+async def test_bot_send_async_httpx_message(async_bot_httpx: AsyncBot):
+    response: httpx.Response = await async_bot_httpx.send_message(
+        "Test message"
+    )
     assert response.status_code == 200, response.text
 
 
