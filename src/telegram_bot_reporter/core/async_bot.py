@@ -18,7 +18,7 @@ class AsyncBot(BaseBot):
         :param message: Text to send.
         :param split_message: If true, message will be sent by chunks.
             Defaults to False.
-        :return: niquests.Response
+        :return: httpx.Response
 
         """
 
@@ -35,7 +35,7 @@ class AsyncBot(BaseBot):
 
         :param file_path: Path to the file.
         :param caption: Caption of the file. Defaults to empty string.
-        :return: niquests.Response
+        :return: httpx.Response
         """
 
         with open(file_path, "rb") as f:
