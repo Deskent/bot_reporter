@@ -7,6 +7,18 @@ from telegram_bot_reporter.core.base_bot import BaseBot
 
 
 class Bot(BaseBot):
+    def send_message_to_chat(
+        self,
+        chat_id: str | int,
+        message: str,
+        split_message: bool = False,
+    ):
+        self._chat_id = str(chat_id)
+        return self.send_message(
+            message=message,
+            split_message=split_message,
+        )
+
     def send_message(
         self,
         message: str,
