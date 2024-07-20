@@ -35,3 +35,10 @@ class BaseBot:
         self._headers: dict = {"Content-Type": "application/json"}
         self._url = f"https://api.telegram.org/bot{self._token}"
         self._transport = transport
+
+    def _make_message(self, message: str) -> str:
+        if len(message) > self._CHUNK:
+            raise ValueError(
+                f"Message too long. Max length is {self._CHUNK} symbols."
+            )
+        return f"{self._prefix}: {message}" if self._prefix else message

@@ -72,14 +72,11 @@ class AsyncBot(BaseBot):
             return response
 
     async def _send_message(self, message: str) -> httpx.Response:
-        if len(message) > self._CHUNK:
-            raise ValueError(
-                f"Message too long. Max length is {self._CHUNK} symbols."
-            )
+        text: str = self._make_message(message)
 
         data: dict = {
             "chat_id": self._chat_id,
-            "text": f"{self._prefix}: {message}",
+            "text": text,
             "parse_mode": self._parse_mode,
         }
         return await self._send_api_request(
