@@ -1,10 +1,11 @@
 name: Publish to PYPI
-
+env:
+  BRANCH: "main"
+  VERSION: ${{ github.sha }}
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build-and-publish:
@@ -24,3 +25,35 @@ jobs:
         run: python -m poetry build
       - name: Publish to Pypi
         run: python -m poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
+
+      - uses: actions/checkout@v4
+      - name: Telegram notification on Failure
+        if: failure()
+        env:
+          MESSAGE: "
+            Build: FAILED!!!
+            \n[${{ env.LABEL}}]: Branch ${{ env.BRANCH }}:
+            \n${{ github.event.head_commit.message }}
+            \nVersion: ${{ env.VERSION}}
+            "
+        run: |
+          curl \
+          -X POST \
+          -H 'Content-Type: application/json' \
+          -d '{"chat_id": ${{ secrets.TELEGRAM_CHAT_ID }}, "text": "${{ env.MESSAGE }}", "disable_notification": false}' \
+          https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
+
+      - name: Send notification on Success
+        env:
+          MESSAGE: "
+            Build: OK
+            \n[${{ env.LABEL}}]: Branch ${{ env.BRANCH }}:
+            \n${{ github.event.head_commit.message }}
+            \nVersion: ${{ env.VERSION}}
+            "
+        run: |
+          curl \
+          -X POST \
+          -H 'Content-Type: application/json' \
+          -d '{"chat_id": ${{ secrets.TELEGRAM_CHAT_ID }}, "text": "${{ env.MESSAGE }}", "disable_notification": true}' \
+          https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
