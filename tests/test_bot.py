@@ -12,7 +12,7 @@ def test_bot_send_message(bot: Bot):
 
 def test_bot_send_long_message(bot: Bot):
     response: httpx.Response = bot.send_message(
-        "*" * 4097,
+        "." * 4097,
         split_message=True,
     )
     assert response.status_code == 200, response.text

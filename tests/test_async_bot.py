@@ -12,7 +12,7 @@ async def test_bot_send_async_message(async_bot: AsyncBot):
 
 async def test_bot_send_long_message(async_bot: AsyncBot):
     response: httpx.Response = await async_bot.send_message(
-        "*" * 4001,
+        "." * 4001,
         split_message=True,
     )
     assert response.status_code == 200, response.text
