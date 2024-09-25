@@ -35,6 +35,8 @@ class Bot(BaseBot):
 
         if split_message:
             return self._send_chunks(message)
+
+        message = message[: self._CHUNK]
         return self._send_message(message)
 
     def send_document(

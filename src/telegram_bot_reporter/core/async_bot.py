@@ -36,6 +36,8 @@ class AsyncBot(BaseBot):
 
         if split_message:
             return await self._send_chunks(message)
+
+        message = message[: self._CHUNK]
         return await self._send_message(message)
 
     async def send_document(
