@@ -23,6 +23,7 @@ class AsyncBot(BaseBot):
         self,
         message: str,
         split_message: bool = False,
+        default_exception: Exception = None,
     ) -> httpx.Response:
         """
         Send message to the Telegram chat.
@@ -30,15 +31,23 @@ class AsyncBot(BaseBot):
         :param message: Text to send.
         :param split_message: If true, message will be sent by chunks.
             Defaults to False.
+
+        :param default_exception: Exception to raise if send message fails.
         :return: httpx.Response
 
         """
+        try:
+            if split_message:
+                return await self._send_chunks(message)
 
-        if split_message:
-            return await self._send_chunks(message)
+            message = message[: self._CHUNK]
+            return await self._send_message(message)
 
-        message = message[: self._CHUNK]
-        return await self._send_message(message)
+        except Exception as err:
+            if default_exception is not None:
+                raise default_exception from err
+
+            raise err
 
     async def send_document(
         self,
